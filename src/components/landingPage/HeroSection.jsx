@@ -30,7 +30,7 @@ function Herosection() {
 
             <div className="grid grid-cols-4 gap-6">
 
-              <div className="bg-green-200 p-4 shadow-xl py-4">
+              <div className="bg-[#DDF8F4] p-4 shadow-xl py-4">
                 <button
                
                 >
@@ -41,7 +41,7 @@ function Herosection() {
                   <p>AI analyzes breathing and cough sounds</p>
                 </div>
 
-              <div className="bg-green-200 p-4 shadow-xl">
+              <div className="bg-[#DDF8F4] p-4 shadow-xl">
                 <button
                
                 >
@@ -51,7 +51,7 @@ function Herosection() {
                 <h1 className="font-bold">Audo Analysis</h1>
                   <p>AI analyzes breathing and cough sounds</p>
               </div>
-              <div className="bg-green-200 p-4 shadow-xl">
+              <div className="bg-[#DDF8F4] p-4 shadow-xl">
                 <button
                
                 >
@@ -61,7 +61,7 @@ function Herosection() {
                 <h1 className="font-bold">Audo Analysis</h1>
                   <p>AI analyzes breathing and cough sounds</p>
               </div>
-              <div className="bg-green-200 p-4 shadow-xl">
+              <div className="bg-[#DDF8F4] p-4 shadow-xl">
                 <button
                
                 >

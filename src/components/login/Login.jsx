@@ -6,6 +6,7 @@ import apple from "./image/apple.png"
 import image from "./image/mainimage.png"
 import { useState } from "react"
 import Lung from "../dashboard/image/lung logo.png"
+import { Link } from "react-router-dom"
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
@@ -58,7 +59,9 @@ function Login() {
   return (
     <>
       {/* Navigation */}
-      <nav className="bg-white px-20 py-5 shadow-sm border-b border-gray-100">
+       <div className="px-[10px] py-[20px] hide-scrollbar  h-screen overflow-y-scroll">
+       
+      <nav className="p-5 px-5 shadow-lg shadow-[#059AA0]">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="">
@@ -111,9 +114,11 @@ function Login() {
                 </div>
               )}
             </div>
+            <Link to="/dashboard" className="text-teal-500 hover:text-teal-600 underline">
             <a href="#" className="text-teal-500 hover:text-teal-600 underline">
               Sign in
             </a>
+            </Link>
             <button
               onClick={handleOpenRegister}
               className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition duration-200"
@@ -244,6 +249,7 @@ function Login() {
           </div>
         </div>
       </main>
+      </div>
 
       {/* Register Form Modal */}
       {showRegisterForm && (
