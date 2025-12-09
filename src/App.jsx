@@ -16,12 +16,12 @@ function App(){
     <>
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Landing />}  />
+        <Route path="/" element={<Landing />}  />
         <Route path="/login" element={<Login />}  /> 
         <Route path="/dashboard" element={<Dashboard />}  />
         <Route path="/Input" element={<Input />}  />
-         <Route path="/Uploadcough" element={<Uploadcough />} /> */}
-          <Route path="/" element={<Report />} />
+         <Route path="/Uploadcough" element={<Uploadcough />} />
+          <Route path="/Report" element={<Report />} />
          
       </Routes>
     </Router>
