@@ -6,6 +6,7 @@ import Input from "./components/input/Input"
 import Landing from "./components/landingPage/Landing"
 import Uploadcough from "./components/input/UploadInput"
 import Report from "./components/input/Report"
+import Chatbot from "./components/chatbot/Chatbot"
 
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
@@ -16,12 +17,13 @@ function App(){
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />}  />
+        {/* <Route path="/" element={<Landing />}  />
         <Route path="/login" element={<Login />}  /> 
         <Route path="/dashboard" element={<Dashboard />}  />
         <Route path="/Input" element={<Input />}  />
          <Route path="/Uploadcough" element={<Uploadcough />} />
-          <Route path="/Report" element={<Report />} />
+          <Route path="/Report" element={<Report />} /> */}
+          <Route path="/" element={<Chatbot />} />
          
       </Routes>
     </Router>
