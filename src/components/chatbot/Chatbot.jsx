@@ -7,7 +7,7 @@ function Chatbot() {
   };
   return (
     <>
-      <main className="grid grid grid-cols-5 h-screen bg-black text-center text-white">
+      <main className="grid  grid-cols-5 h-screen bg-black text-center text-white">
         <div className="col-span-1 bg-zinc-800 ">
           <h1>Hello</h1>
         </div>
