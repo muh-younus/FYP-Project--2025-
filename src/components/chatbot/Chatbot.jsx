@@ -1,9 +1,26 @@
 import React, { useState } from "react";
+import {URL} from "../../constant.js"
 
 function Chatbot() {
   const [question, setQuestion] = useState();
-  const askquestion = () => {
-    console.log(question);
+  const payload = {
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Explain how AI works in a few words"
+          }
+        ]
+      }
+    ]
+  }
+  const askquestion = async  () => {
+    let response = await fetch(URL,{
+      method: "POST",
+      body:JSON.stringify(payload),
+    })
+    response = await response.json()
+    console.log(response)
   };
   return (
     <>

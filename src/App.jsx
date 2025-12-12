@@ -20,13 +20,13 @@ function App(){
     <Router>
       <Routes>
         {/* <Route path="/" element={<Landing />}  />
-        <Route path="/login" element={<Login />}  />  */}
-        <Route path="/" element={<Dashboard />}  />
+        <Route path="/login" element={<Login />}  /> 
+        <Route path="/dashboard" element={<Dashboard />}  />
         <Route path="/setting" element={<Setting />}  />
-        {/* <Route path="/Input" element={<Input />}  />
+        <Route path="/Input" element={<Input />}  />
          <Route path="/Uploadcough" element={<Uploadcough />} />
-          <Route path="/Report" element={<Report />} /> */}
-          {/* <Route path="/" element={<Chatbot />} /> */}
+          <Route path="/report" element={<Report />} />  */}
+          <Route path="/" element={<Chatbot />} /> 
          
       </Routes>
     </Router>
