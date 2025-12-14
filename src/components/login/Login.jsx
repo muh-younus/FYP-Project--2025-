@@ -1,179 +1,137 @@
-"use client";
-
-import google from "./image/google.webp";
-import facebook from "./image/facebook.webp";
-import apple from "./image/apple.png";
-import image from "./image/mainimage.png";
-import { useState } from "react";
-import Lung from "../dashboard/image/lung logo.png";
-import { Link } from "react-router-dom";
-import Registration  from "./Registration";
-import Signin from "./Signin";
+import google from "./image/google.webp"
+import facebook from "./image/facebook.webp"
+import apple from "./image/apple.png"
+import image from "./image/mainimage.png"
+import { useState } from "react"
+import Lung from "../dashboard/image/lung logo.png"
+import { Link, useNavigate } from "react-router-dom" 
+import LoginForm from "./LoginForm"
+import RegisterForm from "./RegisterForm"
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  // const [showForm, setShowForm] = useState(false)
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [registerData, setRegisterData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    age: "",
-    gender: "",
-    height: "",
-    weight: "",
-  });
-  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [registerForm, setRegisterForm] = useState(false)
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false)
+  const [selectedLanguage, setSelectedLanguage] = useState("English")
+  const [success, setSuccess] = useState("") // STATE for success message
+  const [error, setError] = useState("")     // STATE for API error message
 
-  // const handleOpen = () => setShowForm(true)
-  // const handleClose = () => setShowForm(false)
-  const handleOpenRegister = () => setShowRegisterForm(true);
-  const handleCloseRegister = () => setShowRegisterForm(false);
+  const navigate = useNavigate() 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  // Function to switch to login view (e.g., when clicking "Sign in" in the nav)
+  const switchToLogin = () => {
+    setRegisterForm(false);
+    setError(""); // Clear previous errors
+    setSuccess("");
   };
 
-  const handleRegisterChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // Clear messages when opening register form
+  const switchToRegister = () => {
+    setRegisterForm(true);
+    setError("");
+    setSuccess("");
+  }
 
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-    console.log("Register data:", registerData);
-    handleCloseRegister();
-  };
 
   return (
     <>
       {/* Navigation */}
-      <div className="px-[10px] py-[20px] hide-scrollbar  h-screen overflow-y-scroll">
+      <div className="px-[10px] py-[20px] hide-scrollbar h-screen overflow-y-scroll">
+
         <nav className="p-5 px-5 shadow-lg shadow-[#059AA0]">
           <div className="flex justify-between items-center">
-            {/* Logo */}
+            
             <div className="">
-              <h1 className="text-xl font-bold text-[#059AA0] flex flex-row gap-1">
-                <img
-                  src={Lung}
-                  alt=""
-                  className="w-[26px] h-[27px] object-cover"
-                />{" "}
-                BreatheWell
-              </h1>
-            </div>
-
-            {/* Menu */}
-            <div className="flex gap-12 font-medium text-gray-800">
-              <a
-                href="#"
-                className="relative group cursor-pointer hover:text-teal-500 transition"
-              >
-                Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all duration-300 group-hover:w-full"></span>
-              </a>
-              <a
-                href="#"
-                className="relative group cursor-pointer hover:text-teal-500 transition"
-              >
-                About Us
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all duration-300 group-hover:w-full"></span>
-              </a>
-              <a
-                href="#"
-                className="relative group cursor-pointer hover:text-teal-500 transition"
-              >
-                How to use
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              <h1 className="text-xl font-bold text-[#059AA0] flex flex-row gap-1"><img src={Lung} alt="" className="w-[26px] h-[27px] object-cover" /> BreatheWell</h1>
             </div>
 
             {/* Right Actions */}
             <div className="flex items-center gap-6 text-sm font-medium">
-              {/* Improved language selector with dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setShowLanguageMenu(!showLanguageMenu)}
                   className="text-gray-600 cursor-pointer hover:text-teal-500 transition flex items-center gap-1 px-3 py-2 rounded hover:bg-gray-50"
                 >
                   🌐 {selectedLanguage}
-                  <span
-                    className={`transition-transform ${
-                      showLanguageMenu ? "rotate-180" : ""
-                    }`}
-                  >
-                    ▼
-                  </span>
+                  <span className={`transition-transform ${showLanguageMenu ? "rotate-180" : ""}`}>▼</span>
                 </button>
-                {showLanguageMenu && (
-                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max">
-                    {["English", "Spanish", "French", "German", "Chinese"].map(
-                      (lang) => (
-                        <button
-                          key={lang}
-                          onClick={() => {
-                            setSelectedLanguage(lang);
-                            setShowLanguageMenu(false);
-                          }}
-                          className={`block w-full text-left px-4 py-2 hover:bg-teal-50 hover:text-teal-600 transition ${
-                            selectedLanguage === lang
-                              ? "bg-teal-100 text-teal-600 font-semibold"
-                              : "text-gray-700"
-                          }`}
-                        >
-                          {lang}
-                        </button>
-                      )
-                    )}
-                  </div>
-                )}
+                
               </div>
-              <Link
-                to="/dashboard"
-                className="text-teal-500 hover:text-teal-600 underline"
-              >
-                <a
-                  href="#"
-                  className="text-teal-500 hover:text-teal-600 underline"
-                >
-                  Sign in
-                </a>
-              </Link>
-              <button
-                onClick={handleOpenRegister}
-                className="bg-[#059AA0] text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition duration-200"
-              >
+
+              {/* Update Link to trigger switch to login view */}
+              <button onClick={switchToLogin} className="text-teal-500 hover:text-teal-600 underline">
+                Sign in
+              </button>
+
+              {/*  Update button to trigger switch to register view */}
+              <button onClick={switchToRegister} className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition duration-200">
                 Register
               </button>
+
             </div>
           </div>
         </nav>
 
-        {/* Main Content */}
-        <Signin/>
-        
-      </div>
+        {/* Register Form */}
+        {registerForm && (
+          <RegisterForm
+            registerForm={registerForm}
+            setRegisterForm={setRegisterForm}
+            setError={setError} // Pass API error state handler
+            setSuccess={setSuccess} // Pass API success state handler
+          />
+        )}
 
-      {/* Register Form Modal */}
-      {showRegisterForm && (
-        <Registration state={handleCloseRegister}/>
-        
-      )}
+
+        {/* Main Content */}
+        <main className="bg-gradient-to-br from-cyan-50 via-white to-white min-h-screen px-20 py-10">
+          <div className="grid grid-cols-3 gap-16 items-center">
+            {/* Left Section - Promotional Text */}
+            <div className="space-y-6">
+              <h2 className="text-5xl font-bold text-gray-900 leading-tight">
+                Welcome to
+                <br />
+                BreatheWell
+              </h2><p className="text-gray-700 text-base leading-relaxed">
+                If you don't have an account
+                <br />
+                you can{" "}
+                <button
+                  onClick={switchToRegister} // Use dedicated function
+                  className="text-[#059AA0] font-semibold hover:text-teal-600 underline"
+                >
+                  Register here!
+                </button>
+              </p>
+            </div>
+
+            {/* Center Section*/}
+            <div className="flex justify-center items-center">
+              <img
+                src={image || "/placeholder.svg"}
+                alt="Person with lungs illustration"
+                className="w-full max-w-xs object-contain "
+              />
+            </div>
+
+            {/*Login/Register Form */}
+            <div className="flex flex-col items-center justify-start">
+              {/* 🌟 Display Global Messages here (from API calls) */}
+              {error && <p className="text-red-500 text-base mb-4 w-full max-w-md">{error}</p>}
+              {success && <p className="text-green-500 text-base mb-4 w-full max-w-md">{success}</p>}
+
+              {!registerForm && (
+                <LoginForm
+                  navigate={navigate}
+                  setParentError={setError}
+                  setParentSuccess={setSuccess}
+                />
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
     </>
-  );
+  )
 }
 
-export default Login;
+export default Login
