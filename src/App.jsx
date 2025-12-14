@@ -8,29 +8,30 @@ import Uploadcough from "./components/input/UploadInput"
 import Report from "./components/input/Report"
 
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-function App(){
 
-  return(
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+function App() {
+
+  return (
 
     <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />}  />
-        <Route path="/login" element={<Login />}  /> 
-        <Route path="/dashboard" element={<Dashboard />}  />
-        <Route path="/Input" element={<Input />}  />
-         <Route path="/Uploadcough" element={<Uploadcough />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Input" element={<Input />} />
+          <Route path="/Uploadcough" element={<Uploadcough />} />
           <Route path="/Report" element={<Report />} />
-         
-      </Routes>
-    </Router>
-    
-    
-    
 
-    
-    
+        </Routes>
+      </Router>
+
+
+
+
+
+
     </>
   )
-}export default App
+} export default App

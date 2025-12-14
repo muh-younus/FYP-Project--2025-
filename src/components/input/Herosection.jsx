@@ -55,9 +55,9 @@ function Herosection() {
 
           <div className="relative bottom-[30px] w-[100px] left-[952px]">
             <Link to="/Uploadcough">
-            <button className="px-4 py-2 bg-[#1FB8C0] hover:border-[#1FB8C0] hover:border-2 hover:bg-white hover:text-[#1FB8C0] text-white rounded-full">
-              Next ➜
-            </button>
+              <button className="px-4 py-2 bg-[#1FB8C0] hover:border-[#1FB8C0] hover:border-2 hover:bg-white hover:text-[#1FB8C0] text-white rounded-full">
+                Next ➜
+              </button>
             </Link>
           </div>
         </div>
