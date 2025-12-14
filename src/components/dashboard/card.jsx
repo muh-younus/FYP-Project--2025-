@@ -1,4 +1,4 @@
-import { FileText, AlertTriangle, BarChart3, Heart } from "lucide-react"
+import { FileText, AlertTriangle,Stethoscope, BarChart3, Heart, History } from "lucide-react"
 import { Link } from "react-router-dom"
 
 
@@ -11,9 +11,17 @@ const features = [
 
   },
   {
+    icon: Stethoscope,
+    title: "Doctor Appointment",
+    description: "Book a consultation with a healthcare professional",
+    link: "/Input"
+
+  },
+  {
     icon: AlertTriangle,
     title: "Environmental alerts",
     description: "Get notified about air quality risks",
+    link: "/environment"
   },
   {
     icon: BarChart3,
@@ -24,6 +32,13 @@ const features = [
     icon: Heart,
     title: "Care plan",
     description: "Daily care plan focusing on wellness goals",
+    link: "/careplan"
+  },
+  {
+    icon: History,
+    title: "History",
+    description: "Track your past health records and improvements over time",
+   
   },
 ]
 
