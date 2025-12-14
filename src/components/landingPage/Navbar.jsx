@@ -1,32 +1,13 @@
-<<<<<<< HEAD
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Login from "../login/Login";
-import Herosection from "./HeroSection";
+
 import lungIcon from "../dashboard/image/lung logo.png";
 import { useState } from "react";
 import Doctor from "./image/doctor1.png";
 import Patient from "./image/user.png";
 import { ArrowLeft } from "lucide-react";
-=======
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Login from '../login/Login';
-import Herosection from './HeroSection';
-import lungIcon from "../dashboard/image/lung logo.png"
-import { useState } from 'react';
-import Doctor from './image/doctor1.png'
-import Patient from './image/user.png'
->>>>>>> fe3d66137c2e9baf113ae1b4d085da446a3759b4
-function Home() {
+function Navbar() {
   const [form, setForm] = useState(false);
 
-<<<<<<< HEAD
-=======
-
-  const [form, setForm] = useState(false)
-  function colseform() {
-    setForm(!form)
-  }
->>>>>>> fe3d66137c2e9baf113ae1b4d085da446a3759b4
   return (
     <>
       <nav className="p-5 px-5 shadow-md">
@@ -68,18 +49,9 @@ function Home() {
               >
                 <a href="#contact">Contact</a>
               </li>
-<<<<<<< HEAD
               <li className="cursor-pointer" onClick={() => setForm(!form)}>
                 <button className="primary-bg  hover:border-primary hover:border-1  hover:bg-white hover:text-black text-white py-1 px-4 rounded-full">
                   Get Started
-=======
-              <li className="cursor-pointer"
-                onClick={() => setForm(!form)}
-              >
-                <button className="primary-bg  hover:border-black  hover:bg-white hover:text-black text-white py-1 px-4 rounded-full">
-                  Login
-
->>>>>>> fe3d66137c2e9baf113ae1b4d085da446a3759b4
                 </button>
               </li>
             </ul>
@@ -87,7 +59,6 @@ function Home() {
         </div>
       </nav>
 
-<<<<<<< HEAD
       {form && (
   <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
     
@@ -131,65 +102,8 @@ function Home() {
     </div>
   </div>
 )}
-=======
-      {form &&
-        <>
-          <div>
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-              <div className='bg-white rounded'
-                aria-labelledby="modal-title"
-                role="dialog"
-                aria-modal="true"
-              >
-                <Link to="/" onClick={colseform}>
-                  <h1 className=" text-end text-xl font-bold cursor-pointer mr-2 mb-0 text-red-">X</h1>
-                </Link>
-
-                <div className="  w-[540px] h-[280px] bg-white rounded flex flex-col justify-center items-center mt-0">
-                  <h1 onClick={window.history.back()} className="text-[25px] font-bold font-poppins font-weight-700">Welcome to the BreathWell</h1>
-                  <p className="text-[20px] font-[poppins] font-weight-500">To access the portal, you need to choose a type of access</p>
-                  {/* <button onClick={window.history.back()} style={color='black'}>X</button> */}
-                  <div
-                    className="flex flex-row items-center justify-center"
-                  >
-                    <Link to="/login">
-                      <div
-                        className="w-[150px] h-[165px] border-1 border-[#E6EEF8] rounded p-5 flex flex-col justify-center items-center cursor-pointer"
-                      >
-                        <img className="w-[100px] h-[100px]" src={Doctor} alt="" />
-                        <p className="text-[24px] font-poppins font-weight-600 font-bold">
-
-                          Doctor
-
-                        </p>
-
-                      </div>
-                    </Link>
-                    <Link to="/login">
-                      <div
-                        className="w-[150px] h-[165px] border-1 border-[#E6EEF8] rounded p-5 flex flex-col justify-center items-center cursor-pointer"
-                      >
-                        <img className="w-[100px] h-[100px]" src={Patient} alt="" />
-                        <p className="text-[24px] font-poppins font-weight-600 font-bold">
-
-
-                          Patient
-
-                        </p>
-
-                      </div>
-                    </Link>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      }
->>>>>>> fe3d66137c2e9baf113ae1b4d085da446a3759b4
 
     </>
   );
 }
-export default Home;
+export default Navbar;

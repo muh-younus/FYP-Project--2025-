@@ -1,219 +1,250 @@
-import fetch_aqi_data from "./Api_data-fetching";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+// Lucide-React Icons for a professional look
+import { 
+  CloudRain, 
+  Wind, 
+  Droplets, 
+  Thermometer, 
+  Cloud, 
+  Search, 
+  MapPin,
+  Sunrise,
+  AlertTriangle 
+} from 'lucide-react';
 
-import { MapPin, Bell, Activity } from "lucide-react";
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  BarChart,
-  Bar,
-} from "recharts";
+// --- CONFIGURATION ---
+const BASE_COLOR = '#059AA0'; // Custom color: Dark Cyan/Teal
+const FALLBACK_GRADIENT = `from-[${BASE_COLOR}] to-blue-900`;
 
-export default function EnvironmentalAlert() {
-  const [apiData, setApiData] = useState(null);
-  const [city, setCity] = useState("Islamabad");
-  const [disease, setDisease] = useState("healthy");
+// --- CUSTOM CARD COMPONENT (Further reduced size) ---
+const MetricCard = ({ icon: Icon, label, value, unit, color }) => (
+  // Reduced padding (p-2) and space-x (space-x-2)
+  <div className="bg-white/20 p-2 rounded-xl flex items-center space-x-2 shadow-lg transition duration-300 hover:bg-white/30">
+    <div className={`p-1.5 rounded-full ${color}`} style={{ backgroundColor: `${color}40` }}> 
+      {/* Reduced icon size (w-4 h-4) */}
+      <Icon className={`w-4 h-4 ${color}`} />
+    </div>
+    <div>
+      {/* Reduced text size (text-lg/text-xs/text-3xs) */}
+      <p className="text-lg font-bold text-white leading-tight">{value}<span className="text-xs font-medium">{unit}</span></p>
+      <p className="text-3xs text-gray-200 uppercase tracking-wide">{label}</p>
+    </div>
+  </div>
+);
+
+// --- MAIN COMPONENT ---
+const App = () => {
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [city, setCity] = useState('Balikpapan');
+  const [inputCity, setInputCity] = useState('Balikpapan');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Note: The API Key is exposed here, but in a real app, it should be in environment variables.
+  const API_KEY = 'b22130263a3a449a8d0155902251312'; 
 
   useEffect(() => {
-    fetch_aqi_data(city).then(setApiData);
+    const getWeather = async () => {
+      setLoading(true);
+      setError(null);
+      setCurrentWeather(null);
+      
+      try {
+        const res = await fetch(
+          `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&aqi=no`
+        );
+        const data = await res.json();
+
+        if (data.error) {
+            throw new Error(data.error.message);
+        }
+
+        setCurrentWeather(data.current);
+        setLoading(false);
+      } catch (e) {
+        console.error("Fetch error:", e);
+        setError(`Could not find weather for "${city}". Please try again.`);
+        setLoading(false);
+      }
+    };
+
+    getWeather();
   }, [city]);
 
-  if (!apiData) return <p className="p-6">Loading...</p>;
-
-  const { location, current } = apiData;
-  const aqi = current.air_quality;
-
-  /* AQI severity */
-  const severityMap = {
-    1: { label: "Good", color: "#22c55e", sensitivity: "Low" },
-    2: { label: "Moderate", color: "#eab308", sensitivity: "Mild" },
-    3: { label: "Unhealthy (Sensitive)", color: "#f97316", sensitivity: "High" },
-    4: { label: "Unhealthy", color: "#ef4444", sensitivity: "Very High" },
-    5: { label: "Hazardous", color: "#7f1d1d", sensitivity: "Extreme" },
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (inputCity.trim() !== '') {
+      setCity(inputCity.trim());
+    }
   };
 
-  const severity = severityMap[aqi["us-epa-index"]];
-
-  /* Disease-based recommendations */
-  const recommendations = {
-    asthma: "Avoid outdoor activity. Use mask, keep inhaler ready. PM2.5 is a major trigger.",
-    COPD: "High risk of breathlessness. Stay indoors, avoid exertion, follow medication plan.",
-    bronchitis: "Air pollutants may worsen cough. Avoid smoke and polluted areas.",
-    pneumonia: "Rest indoors and avoid exposure. Polluted air delays recovery.",
-    healthy: "Limit prolonged outdoor exposure. Stay hydrated and monitor air quality.",
+  // --- Utility functions for aesthetic background/styling ---
+  const getWeatherStyle = (conditionText) => {
+    const text = conditionText ? conditionText.toLowerCase() : '';
+    
+    if (text.includes('sunny') || text.includes('clear')) {
+      return { 
+        gradient: 'from-yellow-400 to-amber-600', 
+        cardClass: 'bg-amber-700/30' 
+      };
+    }
+    if (text.includes('rain') || text.includes('drizzle')) {
+      return { 
+        gradient: 'from-blue-600 to-indigo-800', 
+        cardClass: 'bg-blue-800/30' 
+      };
+    }
+    if (text.includes('cloud') || text.includes('overcast')) {
+      return { 
+        gradient: 'from-gray-500 to-slate-700', 
+        cardClass: 'bg-slate-700/30' 
+      };
+    }
+    if (text.includes('snow') || text.includes('ice')) {
+      return { 
+        gradient: 'from-slate-300 to-cyan-500', 
+        cardClass: 'bg-cyan-600/30' 
+      };
+    }
+    // Default to custom color
+    return { 
+        gradient: FALLBACK_GRADIENT, 
+        cardClass: 'bg-sky-800/30' 
+    };
   };
 
-  /* Charts data */
-  const pollutants = [
-    { name: "PM2.5", value: aqi.pm2_5 },
-    { name: "PM10", value: aqi.pm10 },
-    { name: "CO", value: aqi.co },
-    { name: "NO₂", value: aqi.no2 },
-    { name: "O₃", value: aqi.o3 },
-    { name: "SO₂", value: aqi.so2 },
-  ];
+  const currentStyle = currentWeather ? getWeatherStyle(currentWeather.condition.text) : getWeatherStyle('');
 
-  const trend = [
-    { t: "6 AM", pm25: 30 },
-    { t: "9 AM", pm25: 45 },
-    { t: "12 PM", pm25: 60 },
-    { t: "3 PM", pm25: aqi.pm2_5 },
-    { t: "6 PM", pm25: 55 },
-  ];
+  // --- Render logic for loading, error, and main content ---
 
+  if (loading) {
+    return (
+      <div className={`flex items-center justify-center h-screen bg-gradient-to-br ${currentStyle.gradient}`}>
+        <p className="text-white text-2xl animate-pulse">Loading weather data for {city}...</p>
+      </div>
+    );
+  }
+
+  if (error || !currentWeather) {
+      return (
+        <div className={`flex items-center justify-center h-screen bg-gradient-to-br ${currentStyle.gradient} p-4`}>
+            <div className="bg-red-700/70 p-8 rounded-xl max-w-lg text-white text-center shadow-2xl">
+                <AlertTriangle className="w-10 h-10 mx-auto mb-4" />
+                <h2 className="text-2xl font-bold mb-3">Data Error</h2>
+                <p className="text-lg">{error}</p>
+                <button 
+                    onClick={() => { setCity('Balikpapan'); setError(null); setInputCity('Balikpapan'); }}
+                    className="mt-4 px-4 py-2 bg-white text-red-700 rounded-lg font-semibold hover:bg-gray-100 transition"
+                >
+                    Back to Default City
+                </button>
+            </div>
+        </div>
+      );
+  }
+
+  // Destructure for cleaner access
+  const { temp_c, humidity, wind_kph, precip_mm, cloud, condition } = currentWeather;
+  const locationName = `${city.charAt(0).toUpperCase() + city.slice(1)}`;
+
+  // The main aesthetic return structure
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: "#14b8a6" }}>
-            Environmental Alert
-          </h1>
-          <p className="text-sm text-gray-500 flex items-center gap-1">
-            <MapPin size={16} /> {location.name}, {location.country}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="border rounded px-3 py-1">
-            <option>Islamabad</option>
-            <option>Lahore</option>
-            <option>Karachi</option>
-          </select>
-          <select value={disease} onChange={(e) => setDisease(e.target.value)} className="border rounded px-3 py-1">
-            <option value="healthy">Healthy</option>
-            <option value="asthma">Asthma</option>
-            <option value="COPD">COPD</option>
-            <option value="bronchitis">Bronchitis</option>
-            <option value="pneumonia">Pneumonia</option>
-          </select>
-        </div>
-      </div>
-
-      {/* AQI Severity */}
-      <Card className="border-l-4" style={{ borderColor: severity.color }}>
-        <CardContent className="flex justify-between items-center">
-          <div>
-            <p className="text-sm">Air Quality Status</p>
-            <p className="text-xl font-bold" style={{ color: severity.color }}>
-              {severity.label}
-            </p>
-            <p className="text-sm text-gray-500">Sensitivity: {severity.sensitivity}</p>
-          </div>
-          {aqi.pm2_5 > 35 && (
-            <div className="flex items-center gap-2 text-red-600">
-              <Bell /> PM2.5 Alert
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Weather + environment info */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card><CardContent>🌡 Temp: {current.temp_c} °C</CardContent></Card>
-        <Card><CardContent>💧 Humidity: {current.humidity}%</CardContent></Card>
-        <Card><CardContent>💨 Wind: {current.wind_kph} km/h</CardContent></Card>
-        <Card><CardContent>☀ UV Index: {current.uv}</CardContent></Card>
-        <Card><CardContent>🌫 Visibility: {current.vis_km} km</CardContent></Card>
-        <Card><CardContent>🧪 Pressure: {current.pressure_mb} mb</CardContent></Card>
-        <Card><CardContent>☁ Cloud: {current.cloud}%</CardContent></Card>
-        <Card><CardContent>🌧 Precip: {current.precip_mm} mm</CardContent></Card>
-      </div>
-
-      {/* Pollutant charts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {pollutants.map((p) => (
-          <Card key={p.name}>
-            <CardContent>
-              <h3 className="font-semibold mb-2" style={{ color: "#14b8a6" }}>{p.name}</h3>
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart data={[p]}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="#14b8a6" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* PM2.5 Trend */}
-      <Card>
-        <CardContent>
-          <h3 className="font-semibold mb-2" style={{ color: "#14b8a6" }}>
-            PM2.5 Hourly Trend
-          </h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={trend}>
-              <XAxis dataKey="t" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="pm25" stroke="#14b8a6" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-           {/* Recommendations */}
-      <Card className="border-l-4 shadow-lg" style={{ borderColor: "#14b8a6" }}>
-        <CardContent>
-          <h3
-            className="font-bold text-lg mb-2 flex items-center gap-2"
-            style={{ color: "#14b8a6" }}
+    // Key Fix: h-screen to enforce full height, flex and items-center/justify-center to center content
+    // and prevent content from dictating height beyond the viewport.
+    <div className={`h-screen bg-gradient-to-br ${currentStyle.gradient} flex items-center justify-center p-3 transition-all duration-700`}>
+      
+      {/* Key Fix: max-h-full to ensure the card does not overflow the viewport height. 
+          Use 'flex flex-col' to ensure vertical alignment and spacing are predictable. */}
+      <div className={`backdrop-blur-xl rounded-2xl p-4 w-full max-w-sm max-h-full flex flex-col text-white shadow-2xl border border-white/30 ${currentStyle.cardClass}`}>
+        
+        {/* City Search Form (mb-4 instead of mb-6) */}
+        <form onSubmit={handleSearch} className="flex mb-4 space-x-2">
+          <input
+            type="text"
+            value={inputCity}
+            onChange={(e) => setInputCity(e.target.value)}
+            placeholder="Search city..."
+            className="flex-grow p-2 rounded-lg bg-white/30 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-white/80 transition duration-200 text-sm"
+          />
+          <button 
+            type="submit" 
+            className="p-2 bg-white/60 rounded-lg hover:bg-white/80 transition duration-200 text-gray-800"
           >
-            <Activity className="w-5 h-5" /> Personalized Health Recommendation
-          </h3>
+            <Search className="w-5 h-5" />
+          </button>
+        </form>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Recommendation Text */}
-            <div className="bg-teal-50 rounded-xl p-4">
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {recommendations[disease]}
-              </p>
-            </div>
+        {/* --- MAIN WEATHER DISPLAY (mb-4 instead of mb-6) --- */}
+        <div className="text-center mb-4">
+          <MapPin className="w-5 h-5 mx-auto mb-1 text-white/90" />
+          <h1 className="text-3xl font-extrabold leading-none">{locationName}</h1>
+          
+          {/* Reduced image size (w-14 h-14) */}
+          <img 
+            src={`https:${condition.icon}`} 
+            alt={condition.text} 
+            className="w-14 h-14 mx-auto"
+          />
+          
+          {/* Reduced text size (text-4xl instead of 5xl) */}
+          <p className="text-4xl font-light mt-2 mb-0">{temp_c}°C</p>
+          <p className="text-md font-medium text-gray-200 border-t border-white/50 pt-1 inline-block">{condition.text}</p>
+        </div>
 
-            {/* Actionable Tips */}
-            <div className="bg-white border rounded-xl p-4">
-              <p className="text-sm font-semibold mb-2 text-gray-800">Suggested Actions</p>
-              <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-                <li>Avoid outdoor activity during peak pollution hours</li>
-                <li>Wear a mask if you must go outside</li>
-                <li>Keep medications readily available</li>
-                <li>Ensure good indoor ventilation</li>
-              </ul>
-            </div>
-          </div>
+        {/* --- METRICS GRID (Optimized for space, reduced gap) --- */}
+        <div className="grid grid-cols-2 gap-2">
+          <MetricCard 
+            icon={Thermometer} 
+            label="Feels Like" 
+            value={currentWeather.feelslike_c} 
+            unit="°C" 
+            color="text-red-400" 
+          />
+          <MetricCard 
+            icon={Droplets} 
+            label="Humidity" 
+            value={humidity} 
+            unit="%" 
+            color="text-blue-400" 
+          />
+          <MetricCard 
+            icon={Wind} 
+            label="Wind Speed" 
+            value={wind_kph} 
+            unit=" km/h" 
+            color="text-green-400" 
+          />
+          <MetricCard 
+            icon={CloudRain} 
+            label="Precipitation" 
+            value={precip_mm} 
+            unit=" mm" 
+            color="text-cyan-400" 
+          />
+          <MetricCard 
+            icon={Cloud} 
+            label="Cloud Cover" 
+            value={cloud} 
+            unit="%" 
+            color="text-gray-300" 
+          />
+          <MetricCard 
+            icon={Sunrise} 
+            label="Local Time" 
+            value={new Date(currentWeather.last_updated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
+            unit="" 
+            color="text-yellow-300" 
+          />
+        </div>
+        
+        {/* Footer info (mt-3 instead of mt-4) */}
+        <p className="text-center text-3xs text-gray-400 mt-3">
+            Last Updated: {new Date(currentWeather.last_updated).toLocaleString()}
+        </p>
 
-          {/* Risk Level Indicator */}
-          <div className="mt-4">
-            <p className="text-sm font-semibold mb-1 text-gray-700">Current Risk Level</p>
-            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full"
-                style={{
-                  width:
-                    aqi.pm2_5 < 25
-                      ? "25%"
-                      : aqi.pm2_5 < 35
-                      ? "50%"
-                      : aqi.pm2_5 < 55
-                      ? "75%"
-                      : "100%",
-                  backgroundColor: severity.color,
-                }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              Based on PM2.5 concentration and selected health condition
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
-}
+};
+
+export default App;

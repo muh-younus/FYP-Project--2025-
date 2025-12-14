@@ -169,7 +169,7 @@ function Login() {
 
       {/* Register Form Modal */}
       {showRegisterForm && (
-        <Registration/>
+        <Registration state={handleCloseRegister}/>
         
       )}
     </>
