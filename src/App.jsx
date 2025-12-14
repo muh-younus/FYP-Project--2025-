@@ -8,6 +8,7 @@ import Uploadcough from "./components/input/UploadInput"
 import Report from "./components/input/Report"
 import Chatbot from "./components/chatbot/Chatbot"
 import Setting from "./components/dashboard/Setting"
+import Environment from "./components/evironmentAlert/EvironmentalAlert"
 
 
 
@@ -19,14 +20,15 @@ function App(){
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />}  />
-        <Route path="/login" element={<Login />}  /> 
-        <Route path="/dashboard" element={<Dashboard />}  />
-        <Route path="/setting" element={<Setting />}  />
-        <Route path="/Input" element={<Input />}  />
-         <Route path="/Uploadcough" element={<Uploadcough />} />
-          <Route path="/report" element={<Report />} /> 
+        {/* <Route path="/" element={<Landing />}  />
+          <Route path="/login" element={<Login />}  /> 
+          <Route path="/dashboard" element={<Dashboard />}  />
+          <Route path="/setting" element={<Setting />}  />
+          <Route path="/Input" element={<Input />}  />
+          <Route path="/Uploadcough" element={<Uploadcough />} />
+            <Route path="/report" element={<Report />} />  */}
           {/* <Route path="/" element={<Chatbot />} />  */}
+          <Route path="/" element={<Environment />} />
          
       </Routes>
     </Router>
