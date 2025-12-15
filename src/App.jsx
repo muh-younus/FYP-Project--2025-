@@ -10,6 +10,8 @@ import Chatbot from "./components/chatbot/Chatbot"
 import Setting from "./components/dashboard/Setting"
 import Environment from "./components/evironmentAlert/environmental_alert_view"
 import CarePlanUI from "./components/care_plan/Careplan"
+import DoctorList from "./components/doctor_apointment/DoctorList"
+import DoctorProfile from "./components/doctor_apointment/DoctorPeofile"
 
 
 
@@ -31,6 +33,10 @@ function App(){
            <Route path="/" element={<Chatbot />} />  
            <Route path="environment" element={<Environment />} />
           <Route path="careplan" element={<CarePlanUI />} />
+         
+          <Route path="/doctors/:id" element={<DoctorProfile />} />
+          <Route path="/DoctorList" element={<DoctorList />} />
+          
          
       </Routes>
     </Router>

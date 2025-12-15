@@ -58,9 +58,11 @@ function Login() {
               </div>
 
               {/* Update Link to trigger switch to login view */}
-              <button onClick={switchToLogin} className="text-teal-500 hover:text-teal-600 underline">
+              <Link to="/dashboard">
+              <button className="text-teal-500 hover:text-teal-600 underline">
                 Sign in
               </button>
+              </Link>
 
               {/*  Update button to trigger switch to register view */}
               <button onClick={switchToRegister} className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition duration-200">

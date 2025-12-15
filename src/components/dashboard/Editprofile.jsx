@@ -28,7 +28,7 @@ function Editprofile() {
           <div className="flex flex-col items-center">
             <img
               src=""
-              alt="Profile Avatar"
+              alt=""
               className="w-20 h-20 rounded-full bg-[#059AA0] mb-2 border-2 border-[#059AA0]"
             />
             {/* Added a subtle button/link for changing the photo */}
@@ -49,7 +49,7 @@ function Editprofile() {
 
           {/* New Row 2: Designation & Gender/Pronouns (Professional Fields) */}
           <div className="flex flex-row gap-[30px]">
-            <ProfileInputField label="Designation/Title" placeholder="Software Engineer" widthClass="flex-1" />
+            <ProfileInputField label="Designation/Title" placeholder="Specialist in Medicine" widthClass="flex-1" />
             
             {/* Field with a select dropdown for a professional look */}
             <div className="flex-1">

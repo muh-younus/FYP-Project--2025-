@@ -14,7 +14,7 @@ const features = [
     icon: Stethoscope,
     title: "Doctor Appointment",
     description: "Book a consultation with a healthcare professional",
-    link: "/Input"
+    link: "/DoctorList"
 
   },
   {

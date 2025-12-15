@@ -50,7 +50,10 @@ function Navbar() {
                 <a href="#contact">Contact</a>
               </li>
               <li className="cursor-pointer" onClick={() => setForm(!form)}>
-                <button className="primary-bg  hover:border-primary hover:border-1  hover:bg-white hover:text-black text-white py-1 px-4 rounded-full">
+                <button
+                  className="bg-[#059AA0] text-white py-1 px-4 rounded-full 
+                   hover:bg-white hover:text-black hover:border-2 hover:border-[#059AA0]"
+                >
                   Get Started
                 </button>
               </li>
@@ -60,49 +63,55 @@ function Navbar() {
       </nav>
 
       {form && (
-  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
-    
-    {/* Modal */}
-    <div
-      className="relative w-[540px] bg-white rounded-2xl shadow-2xl p-8"
-      role="dialog"
-      aria-modal="true"
-    >
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <ArrowLeft
-          onClick={() => setForm(false)}
-          className="w-6 h-6 cursor-pointer text-[#059AA0] bg-[#E6EEF8] rounded-full hover:opacity-70"
-        />
-        <h1 className="flex-1 text-center text-2xl font-bold">
-          Welcome to BreatheWell
-        </h1>
-      </div>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
+          {/* Modal */}
+          <div
+            className="relative w-[540px] bg-white rounded-2xl shadow-2xl p-8"
+            role="dialog"
+            aria-modal="true"
+          >
+            {/* Header */}
+            <div className="flex items-center mb-6">
+              <ArrowLeft
+                onClick={() => setForm(false)}
+                className="w-6 h-6 cursor-pointer text-[#059AA0] bg-[#E6EEF8] rounded-full hover:opacity-70"
+              />
+              <h1 className="flex-1 text-center text-2xl font-bold">
+                Welcome to BreatheWell
+              </h1>
+            </div>
 
-      <p className="text-center text-gray-600 mb-8">
-        To access the portal, please choose your access type
-      </p>
+            <p className="text-center text-gray-600 mb-8">
+              To access the portal, please choose your access type
+            </p>
 
-      {/* Options */}
-      <div className="flex gap-6 justify-center">
-        <Link to="/login">
-          <div className="w-[160px] h-[180px] border border-[#E6EEF8] rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-all hover:shadow-lg hover:border-[#059AA0]">
-            <img src={Doctor} alt="Doctor" className="w-[90px] h-[90px]" />
-            <p className="mt-3 text-lg font-semibold">Doctor</p>
+            {/* Options */}
+            <div className="flex gap-6 justify-center">
+              <Link to="/login">
+                <div className="w-[160px] h-[180px] border border-[#E6EEF8] rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-all hover:shadow-lg hover:border-[#059AA0]">
+                  <img
+                    src={Doctor}
+                    alt="Doctor"
+                    className="w-[90px] h-[90px]"
+                  />
+                  <p className="mt-3 text-lg font-semibold">Doctor</p>
+                </div>
+              </Link>
+
+              <Link to="/login">
+                <div className="w-[160px] h-[180px] border border-[#E6EEF8] rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-all hover:shadow-lg hover:border-[#059AA0]">
+                  <img
+                    src={Patient}
+                    alt="Patient"
+                    className="w-[90px] h-[90px]"
+                  />
+                  <p className="mt-3 text-lg font-semibold">Patient</p>
+                </div>
+              </Link>
+            </div>
           </div>
-        </Link>
-
-        <Link to="/login">
-          <div className="w-[160px] h-[180px] border border-[#E6EEF8] rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-all hover:shadow-lg hover:border-[#059AA0]">
-            <img src={Patient} alt="Patient" className="w-[90px] h-[90px]" />
-            <p className="mt-3 text-lg font-semibold">Patient</p>
-          </div>
-        </Link>
-      </div>
-    </div>
-  </div>
-)}
-
+        </div>
+      )}
     </>
   );
 }
